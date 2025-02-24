@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button'
 const ProductPage = () => {
   return (
     <div>
-      <Button>FSW 7</Button>
+      <Button>FSW 7git</Button>
     </div>
   )
 }
