@@ -1,11 +1,11 @@
-import { Button } from '@/components/ui/button'
+import { Button } from "@/components/ui/button"
 
 const ProductPage = () => {
-  return (
-    <div>
-      <Button>FSW 7git</Button>
-    </div>
-  )
+	return (
+		<div>
+			<Button className="text-black">FSW 7git</Button>
+		</div>
+	)
 }
 
 export default ProductPage
