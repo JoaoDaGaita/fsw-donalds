@@ -11,7 +11,7 @@ import {
 import { useContext } from "react"
 import { CartContext } from "../contexts/cart"
 const CardSheet = () => {
-	const { isOpen, toggleCart } = useContext(CartContext)
+	const { isOpen, toggleCart, products } = useContext(CartContext)
 
 	return (
 		<Sheet open={isOpen} onOpenChange={toggleCart}>
@@ -22,6 +22,9 @@ const CardSheet = () => {
 						Make changes to your profile here. Click save when you're done.
 					</SheetDescription>
 				</SheetHeader>
+				{products.map((product) => (
+					<h1 key={product.id}>{product.quantity}</h1>
+				))}
 			</SheetContent>
 		</Sheet>
 	)
