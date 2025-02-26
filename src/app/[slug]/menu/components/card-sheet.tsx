@@ -1,12 +1,9 @@
 import {
 	Sheet,
-	SheetClose,
 	SheetContent,
 	SheetDescription,
-	SheetFooter,
 	SheetHeader,
 	SheetTitle,
-	SheetTrigger,
 } from "@/components/ui/sheet"
 import { useContext } from "react"
 import { CartContext } from "../contexts/cart"
