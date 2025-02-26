@@ -6,7 +6,9 @@ import { FormatCurrency } from "@/helpers/format-currency"
 import type { Prisma } from "@prisma/client"
 import { ChefHatIcon, ChevronLeftIcon, ChevronsRightIcon } from "lucide-react"
 import Image from "next/image"
-import { useState } from "react"
+import { useContext, useState } from "react"
+import { CartContext } from "../../contexts/cart"
+import CardSheet from "../../components/card-sheet"
 
 interface ProductDetailsProps {
 	product: Prisma.ProductGetPayload<{
@@ -16,7 +18,7 @@ interface ProductDetailsProps {
 
 const ProductDetails = ({ product }: ProductDetailsProps) => {
 	const [quantity, setQuantity] = useState<number>(0)
-
+	const { toggleCart } = useContext(CartContext)
 	const handleDecreaseQuantity = () => {
 		setQuantity((prev) => {
 			if (prev === 1) {
@@ -30,9 +32,13 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
 		setQuantity((prev) => prev + 1)
 	}
 
+	const handleToggleCart = () => {
+		toggleCart()
+	}
+
 	return (
-		<div className="relative flex flex-col z-50 mt-[-1.5rem] rounded-t-3xl p-5 flex-auto overflow-hidden">
-			<div className="flex-auto overflow-hidden">
+		<>
+			<div className="relative flex flex-col z-50 mt-[-1.5rem] rounded-t-3xl p-5 flex-auto overflow-hidden">
 				{/* RESTAURANTE */}
 				<div className="flex items-center gap-1.5">
 					<Image
@@ -78,31 +84,37 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
 					</div>
 				</div>
 
-				<ScrollArea className="h-full">
-					{/* SOBRE */}
-					<div className="mt-6 space-y-3">
-						<h4 className="font-semibold">Sobre</h4>
-						<p className="text-sm text-muted-foreground">
-							{product.description}
-						</p>
-					</div>
-
-					{/* INGREDIENTES */}
-					<div className="mt-6 space-y-3">
-						<div className="flex items-center gap-1">
-							<ChefHatIcon size={18} />
-							<h4 className="font-semibold">Ingredientes</h4>
+				<div className="my-3 flex-auto overflow-hidden">
+					<ScrollArea className="h-full flex-shrink-0 flex-grow">
+						{/* SOBRE */}
+						<div className="mt-6 space-y-3">
+							<h4 className="font-semibold">Sobre</h4>
+							<p className="text-sm text-muted-foreground">
+								{product.description}
+							</p>
 						</div>
-						<ul className="list-disc px-5 text-sm text-muted-foreground">
-							{product.ingredients.map((ingredient) => (
-								<li key={ingredient}>{ingredient} </li>
-							))}
-						</ul>
-					</div>
-				</ScrollArea>
+
+						{/* INGREDIENTES */}
+						<div className="mt-6 space-y-3">
+							<div className="flex items-center gap-1">
+								<ChefHatIcon size={18} />
+								<h4 className="font-semibold">Ingredientes</h4>
+							</div>
+							<ul className="list-disc px-5 text-sm text-muted-foreground">
+								{product.ingredients.map((ingredient) => (
+									<li key={ingredient}>{ingredient} </li>
+								))}
+							</ul>
+						</div>
+					</ScrollArea>
+				</div>
+				<Button className="w-full rounded-full" onClick={handleToggleCart}>
+					Adicionar à sacola
+				</Button>
 			</div>
-			<Button className="w-full rounded-full">Adicionar à sacola</Button>
-		</div>
+
+			<CardSheet />
+		</>
 	)
 }
 
