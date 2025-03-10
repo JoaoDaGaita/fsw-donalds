@@ -17,10 +17,7 @@
 	"terminal.integrated.gpuAcceleration": "canvas",
 	"editor.indentSize": "tabSize",
 	"editor.tabSize": 2,
-
 	"terminal.integrated.fontFamily": "Hack",
-
-"terminal.integrated.fontSize": 13,
-"terminal.integrated.lineHeight":1,
-
+	"terminal.integrated.fontSize": 13,
+	"terminal.integrated.lineHeight": 1,
 }
