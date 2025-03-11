@@ -1,7 +1,6 @@
 import {
 	Sheet,
 	SheetContent,
-
 	SheetHeader,
 	SheetTitle,
 } from "@/components/ui/sheet"
@@ -11,7 +10,7 @@ import CartProductItem from "./cart-product-item"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { FormatCurrency } from "@/helpers/format-currency"
-
+import FinishOrderButton from "./finish-order-button"
 
 const CardSheet = () => {
 	const { isOpen, toggleCart, products, total } = useContext(CartContext)
@@ -24,8 +23,8 @@ const CardSheet = () => {
 				</SheetHeader>
 				<div className="flex h-full flex-col py-5 space-y-1.5">
 					<div className="flex-auto">
-					{products.map((product) => (
-						<CartProductItem key={product.id} product={product} />
+						{products.map((product) => (
+							<CartProductItem key={product.id} product={product} />
 						))}
 					</div>
 					<Card className="mb-6">
@@ -35,9 +34,8 @@ const CardSheet = () => {
 								<p className="font-semibold text-sm">{FormatCurrency(total)}</p>
 							</div>
 						</CardContent>
-						
 					</Card>
-					<Button className="w-full rounded-full">Finalizar Pedido</Button>
+					<FinishOrderButton />
 				</div>
 			</SheetContent>
 		</Sheet>

@@ -1,6 +1,12 @@
 {
+	"$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
 	"files": {
-		"include": ["scripts/**/*.ts", "src/**/*.tsx"]
+		"include": [
+			"scripts/**/*.ts",
+			"src/**/*.tsx",
+			"src/**/*.jsx",
+			"src/**/*.js"
+		]
 	},
 	"formatter": {
 		"enabled": true,
@@ -20,7 +26,6 @@
 			"semicolons": "asNeeded"
 		}
 	},
-
 	"json": {
 		"formatter": {
 			"trailingCommas": "none"
