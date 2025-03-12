@@ -25,7 +25,7 @@ const formSchema = z.object({
 type FormSchema = z.infer<typeof formSchema>
 
 const FinishOrderButton = () => {
-	const {} = useForm<FormSchema>({
+	const form = useForm<FormSchema>({
 		resolver: zodResolver(formSchema),
 	})
 
