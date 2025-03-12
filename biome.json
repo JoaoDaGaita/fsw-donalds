@@ -5,7 +5,8 @@
 			"scripts/**/*.ts",
 			"src/**/*.tsx",
 			"src/**/*.jsx",
-			"src/**/*.js"
+			"src/**/*.js",
+			"src/**/*.ts"
 		]
 	},
 	"formatter": {
