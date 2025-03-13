@@ -5,7 +5,10 @@ import {
 	Drawer,
 	DrawerClose,
 	DrawerContent,
+	DrawerDescription,
 	DrawerFooter,
+	DrawerHeader,
+	DrawerTitle,
 	DrawerTrigger,
 } from "@/components/ui/drawer"
 
@@ -24,14 +27,27 @@ import {
 import { Input } from "@/components/ui/input"
 import { PatternFormat } from "react-number-format"
 import { DialogTitle } from "@radix-ui/react-dialog"
+import { createOrder } from "../actions/create-order"
+import { useParams, useSearchParams } from "next/navigation"
+import { useContext, useTransition } from "react"
+import { CartContext } from "../contexts/cart"
+import type { ConsumptionMethod } from "@prisma/client"
+import { Loader2Icon } from "lucide-react"
+import { toast } from "sonner"
 
 const formSchema = z.object({
-	name: z.string().trim().min(1, { message: "O nome é obrigatório" }),
+	name: z.string().trim().min(1, {
+		message: "O nome é obrigatório.",
+	}),
 	cpf: z
 		.string()
-		.min(1, { message: "O cpf é obrigatório" })
 		.trim()
-		.refine((value) => isValidCpf(value), { message: "CPF invalido" }),
+		.min(1, {
+			message: "O CPF é obrigatório.",
+		})
+		.refine((value) => isValidCpf(value), {
+			message: "CPF inválido.",
+		}),
 })
 
 type FormSchema = z.infer<typeof formSchema>
@@ -42,6 +58,10 @@ interface FinishOrderDialogProps {
 }
 
 const FinishOrderDialog = ({ onOpenChange, open }: FinishOrderDialogProps) => {
+	const { slug } = useParams<{ slug: string }>()
+	const [isPending, startTransition] = useTransition()
+	const { products } = useContext(CartContext)
+	const searchParams = useSearchParams()
 	const form = useForm<FormSchema>({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
@@ -51,14 +71,37 @@ const FinishOrderDialog = ({ onOpenChange, open }: FinishOrderDialogProps) => {
 		shouldUnregister: true,
 	})
 
-	const onSubmit = (data: FormSchema) => {
-		return console.log({ data })
+	const onSubmit = async (data: FormSchema) => {
+		try {
+			const consumptionMethod = searchParams.get(
+				"consumptionMethod"
+			) as ConsumptionMethod
+			startTransition(async () => {
+				await createOrder({
+					consumptionMethod,
+					customerCpf: data.cpf,
+					customerName: data.name,
+					products,
+					slug,
+				})
+				onOpenChange(false)
+				toast.success("Pedido finalizado com sucesso!")
+			})
+		} catch (error) {
+			console.log(error)
+		}
 	}
 
 	return (
 		<Drawer open={open} onOpenChange={onOpenChange}>
+			<DrawerTrigger asChild>1</DrawerTrigger>
 			<DrawerContent>
-				<DialogTitle>Drawer de finalização de produto</DialogTitle>
+				<DrawerHeader>
+					<DrawerTitle>Finalizar Pedido</DrawerTitle>
+					<DrawerDescription>
+						Insira suas informações abaixo para finalizar o seu pedido.
+					</DrawerDescription>
+				</DrawerHeader>
 				<div className="p-5">
 					<Form {...form}>
 						<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -69,13 +112,12 @@ const FinishOrderDialog = ({ onOpenChange, open }: FinishOrderDialogProps) => {
 									<FormItem>
 										<FormLabel>Seu nome</FormLabel>
 										<FormControl>
-											<Input placeholder="Digire seu nome..." {...field} />
+											<Input placeholder="Digite seu nome..." {...field} />
 										</FormControl>
 										<FormMessage />
 									</FormItem>
 								)}
 							/>
-
 							<FormField
 								control={form.control}
 								name="cpf"
@@ -84,7 +126,7 @@ const FinishOrderDialog = ({ onOpenChange, open }: FinishOrderDialogProps) => {
 										<FormLabel>Seu CPF</FormLabel>
 										<FormControl>
 											<PatternFormat
-												placeholder="Digite seu cpf"
+												placeholder="Digite seu CPF..."
 												format="###.###.###-##"
 												customInput={Input}
 												{...field}
@@ -94,16 +136,19 @@ const FinishOrderDialog = ({ onOpenChange, open }: FinishOrderDialogProps) => {
 									</FormItem>
 								)}
 							/>
+
 							<DrawerFooter>
 								<Button
 									type="submit"
 									variant="destructive"
 									className="rounded-full"
+									disabled={isPending}
 								>
+									{isPending && <Loader2Icon className="animate-spin" />}
 									Finalizar
 								</Button>
 								<DrawerClose asChild>
-									<Button variant="outline" className="rounded-full">
+									<Button className="w-full rounded-full" variant="outline">
 										Cancelar
 									</Button>
 								</DrawerClose>
