@@ -59,11 +59,13 @@ export const createOrder = async (input: CreateOrderProps) => {
 			total: productsWithPricesAndQuantities.reduce(
 				(acc, product) => acc + product.price * product.quantity,
 				0
-				),
+			),
 			consumptionMethod: input.consumptionMethod,
 			restaurantId: restaurant.id,
 		},
 	})
 
-	redirect(`/${input.slug}/orders`)
+	redirect(
+		`/${input.slug}/orders?cpf=${removeCpfPunctuation(input.customerCpf)}`
+	)
 }
