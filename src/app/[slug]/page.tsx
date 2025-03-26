@@ -5,7 +5,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import dine_in from "@/../public/dine_in.svg"
 import takeaway from "@/../public/takeaway.svg"
-import ConsumptionMethodOption from "./[slug]/components/consumption-method-option"
+import ConsumptionMethodOption from "./components/consumption-method-option"
 
 interface RestaurantPageProps {
 	params: Promise<{ slug: string }>
