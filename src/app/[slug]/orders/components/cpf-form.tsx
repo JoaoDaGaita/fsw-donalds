@@ -51,7 +51,7 @@ const CpfForm = () => {
 	const pathname = usePathname()
 
 	const onSubmit = (data: FormSchema) => {
-		router.push(`${pathname}?cpf=${data.cpf}`)
+		router.replace(`${pathname}?cpf=${removeCpfPunctiation(data.cpf)}`)
 	}
 
 	const handleCancel = () => {
@@ -102,3 +102,6 @@ const CpfForm = () => {
 }
 
 export default CpfForm
+function removeCpfPunctiation(cpf: string) {
+	throw new Error("Function not implemented.")
+}

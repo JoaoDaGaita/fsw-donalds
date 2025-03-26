@@ -1,3 +1,5 @@
+"use client"
+
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
@@ -5,6 +7,7 @@ import { FormatCurrency } from "@/helpers/format-currency"
 import { OrderStatus, type Order, type Prisma } from "@prisma/client"
 import { ChevronLeftIcon } from "lucide-react"
 import Image from "next/image"
+import { useParams, useRouter } from "next/navigation"
 
 interface OrderListProps {
 	orders: Array<
@@ -34,9 +37,17 @@ const getStatusLabel = (status: OrderStatus) => {
 }
 
 const OrdersList = ({ orders }: OrderListProps) => {
+	const router = useRouter()
+	const { slug } = useParams<{ slug: string }>()
+	const handleBackCLick = () => router.back()
 	return (
 		<div className="space-y-6 p-6">
-			<Button size="icon" variant="secondary" className="rounded-full">
+			<Button
+				size="icon"
+				variant="secondary"
+				className="rounded-full"
+				onClick={handleBackCLick}
+			>
 				<ChevronLeftIcon />
 			</Button>
 
