@@ -37,9 +37,9 @@ const RestaurantCategories = ({ restaurant }: RestaurantCategoriesProps) => {
 	}
 
 	return (
-		<div className="relative z-50 mt-[-1.5rem] rounded-t-3xl border-white">
-			<div className="p-6">
-				<div className="flex items-center gap-3 p-5">
+		<div className="relative z-50 mt-[-0.5rem] rounded-t-3xl border-white">
+			<div className="p-5">
+				<div className="flex items-center gap-3">
 					<Image
 						src={restaurant.avatarImageUrl}
 						alt={restaurant.description}
@@ -51,7 +51,7 @@ const RestaurantCategories = ({ restaurant }: RestaurantCategoriesProps) => {
 						<p className="text-xs opacity-55">{restaurant.description}</p>
 					</div>
 				</div>
-				<div className="flex items-center gap-1 text-xs text-green-500 ">
+				<div className="mt-3 flex items-center gap-1 text-xs text-green-500 ">
 					<ClockIcon size={12} />
 					<p>Aberto!</p>
 				</div>
@@ -74,7 +74,7 @@ const RestaurantCategories = ({ restaurant }: RestaurantCategoriesProps) => {
 				<ScrollBar orientation="horizontal" />
 			</ScrollArea>
 
-			<h3 className="px-3 font-semibold">{selectedCategory.name}</h3>
+			<h3 className="px-5 pt-2 font-semibold">{selectedCategory.name}</h3>
 
 			<Products products={selectedCategory.products} />
 		</div>

@@ -94,7 +94,6 @@ const CpfForm = () => {
 								Cancelar
 							</Button>
 						</DrawerFooter>
-						<Button type="submit">Submit</Button>
 					</form>
 				</Form>
 			</DrawerContent>
